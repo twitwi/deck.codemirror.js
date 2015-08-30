@@ -33,10 +33,13 @@ It requires, to have included:
         }
     });
 
+    var modesAndAliases = [];
+
     var codemirrorify = function(slide) {
         var o = $.deck('getOptions');
 
-        for (mode in CodeMirror.modes) {
+        for (_mode in modesAndAliases) {
+            var mode = modesAndAliases[_mode];
             var clA = mode + "-code";
             var clB = "language-"+ mode; // added by showdown
             if (mode == "null") { // the "null" mode
@@ -51,7 +54,12 @@ It requires, to have included:
                 if (mode in o.codemirror) {
                     options = o.codemirror[mode];
                 }
-                options.mode = mode;
+                if (mode in o.codemirrorAliases) {
+                    o.mode = o.codemirrorAliases[mode];
+                    console.log(mode, o.mode)
+                } else {
+                    options.mode = mode;
+                }
                 CodeMirror.fromTextArea(e, options);
                 $(e).addClass("__done__");
             });
@@ -60,6 +68,14 @@ It requires, to have included:
 
     var $d = $(document);
     $d.bind('deck.init', function() {
+        var o = $.deck('getOptions');
+        for (mode in CodeMirror.modes) {
+            modesAndAliases.push(mode);
+        }
+        for (alias in o.codemirrorAliases) {
+            o.codemirror[alias] = o.codemirror[o.codemirrorAliases[alias]];
+            modesAndAliases.push(alias);
+        }
         $(".deck-container .slide").bind('deck.becameCurrent', function(_, direction) {
             setTimeout(function() {
                 codemirrorify($(_.target).parentsUntil(".deck-container").andSelf().filter(".slide:first"));
