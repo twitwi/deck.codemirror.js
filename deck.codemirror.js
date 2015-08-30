@@ -11,17 +11,20 @@ It requires, to have included:
 - a packed version of CodeMirror (see http://codemirror.net/doc/compress.html to make your own with plugins),
 - the CodeMirror CSS:
      curl -sk https://raw.githubusercontent.com/codemirror/CodeMirror/master/lib/codemirror.css > codemirror.css
-- the themes files to be loaded (the ones you want to use)
+- the theme files to be loaded (the ones you want to use)
 */
 
 (function($, deck, undefined) {
     $.extend(true, $.deck.defaults, {
         classes: {
         },
+        codemirrorAliases: {
+            "java": "clike"
+        },
         codemirror: {
             "default": {
                 lineNumbers : true,
-                theme : "ttcn",
+                theme : "default",
                 mode : "javascript",
                 //viewportMargin: Infinity,
                 readOnly : true
