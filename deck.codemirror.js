@@ -56,8 +56,7 @@ It requires, to have included:
                     options = o.codemirror[mode];
                 }
                 if (mode in o.codemirrorAliases) {
-                    o.mode = o.codemirrorAliases[mode];
-                    console.log(mode, o.mode)
+                    options.mode = o.codemirrorAliases[mode];
                 } else {
                     options.mode = mode;
                 }
@@ -74,7 +73,10 @@ It requires, to have included:
             modesAndAliases.push(mode);
         }
         for (alias in o.codemirrorAliases) {
-            o.codemirror[alias] = o.codemirror[o.codemirrorAliases[alias]];
+            var to = o.codemirrorAliases[alias];
+            if (to in o.codemirror) {
+                o.codemirror[alias] = o.codemirror[to];
+            }
             modesAndAliases.push(alias);
         }
         $(".deck-container .slide").bind('deck.becameCurrent', function(_, direction) {
