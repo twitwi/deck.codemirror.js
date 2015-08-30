@@ -34,14 +34,15 @@ It requires, to have included:
         var o = $.deck('getOptions');
 
         for (mode in CodeMirror.modes) {
-            var cl = mode + "-code";
+            var clA = mode + "-code";
+            var clB = "language-"+ mode; // added by showdown
             if (mode == "null") { // the "null" mode
-                cl = "code";
+                clA = "code";
+                // clB: nothing is added by showdown anyway
             }
-            var selector = "textarea.%1:%2, .%1>textarea:%2";
-            selector = selector.replace(/%1/g, cl);
+            var pattern = "textarea.%1:%2, .%1>textarea:%2";
+            var selector = pattern.replace(/%1/g, clA) + ", " + pattern.replace(/%1/g, clB);
             selector = selector.replace(/%2/g, "not(.__done__)");
-            console.log(selector);
             $(slide).find(selector).each(function(i, e) {
                 var options = o.codemirror["default"];
                 if (mode in o.codemirror) {
