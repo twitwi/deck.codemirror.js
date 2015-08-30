@@ -19,7 +19,8 @@ It requires, to have included:
         classes: {
         },
         codemirrorAliases: {
-            "java": "clike"
+            "java": "clike",
+            "bash": "shell"
         },
         codemirror: {
             "default": {
